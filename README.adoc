@@ -8,7 +8,7 @@
 :page-enterprise: true
 :page-est-time: 15 minutes
 :imagesdir: /docs/modules/ROOT/images
-:description: This is a demonstration of user code namespaces using an on-premise Hazelcast cluster running in K8S/OpenShift (using local resources only, e.g. no cloud blob storage).  In this exercise, we will be working with a Spring Boot service that uses an entry processor to perform a basic authorization. We will then update the entry processor and domain object without restarting the cluster.
+:description: This is a demonstration of user code namespaces using an on-premise Hazelcast cluster running in K8S/OpenShift (hence we will avoid using remote (cloud) blob storage such as S3 buckets to comply with enterprise security policies).  In this exercise, we will be working with a Spring Boot service that uses an entry processor to perform a basic authorization. We will then update the entry processor and domain object without restarting the cluster.
 
 {description}
 
