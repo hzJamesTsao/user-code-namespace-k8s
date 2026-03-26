@@ -1,0 +1,32 @@
+apiVersion: hazelcast.com/v1alpha1
+kind: ManagementCenter
+metadata:
+  namespace: default
+  name: hazelcast-mc
+spec:
+  scheduling:
+    nodeSelector:
+      component: "management-center"     
+  repository: 'docker.io/hazelcast/management-center'
+  version: "5.10.0"
+  licenseKeySecretName: hazelcast-license
+  externalConnectivity:
+    type: LoadBalancer
+  hazelcastClusters:
+    - address: hz-primary
+      name: hz-primary
+  persistence:
+    enabled: true
+    size: 1Gi
+  jvm:
+    args:
+    - "-Dhazelcast.mc.port=8080"
+    - "-Xms4g -Xmx4g"
+    - "-Dhazelcast.mc.jmx.enabled=true"
+    - "-Dhazelcast.mc.jmx.port=9999"
+    - "-Dhazelcast.mc.jmx.rmi.port=9998"
+    - "-Dcom.sun.management.jmxremote.ssl=false"
+  resources:
+    requests:
+      cpu: "2"
+      memory: "6Gi"

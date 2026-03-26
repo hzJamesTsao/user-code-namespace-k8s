@@ -1,0 +1,13 @@
+hazelcast-client:
+  cluster-name: hz-primary
+  instance-name: override-me
+  properties:
+    hazelcast.discovery.public.ip.enabled: true  
+  network:
+    cluster-members:
+      #- hz:5701
+      - 34.142.58.251
+    smart-routing: true
+  connection-strategy:
+    async-start: false
+    reconnect-mode: ON

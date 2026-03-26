@@ -1,0 +1,41 @@
+apiVersion: hazelcast.com/v1alpha1
+kind: Hazelcast
+metadata:
+  name: hz-primary
+  namespace: default
+spec:
+  scheduling:
+    nodeSelector:
+      component: hazelcast-cluster
+  customConfigCmName: primary-custom-config-cm
+  clusterSize: 1
+  clusterName: hz-primary
+  jet:
+    resourceUploadEnabled: true
+  userCodeDeployment:
+    clientEnabled: true
+  userCodeNamespaces: {} # enables UCN
+  repository: 'docker.io/hazelcast/hazelcast-enterprise'
+  version: '5.6.0'
+  licenseKeySecretName: hazelcast-license
+  exposeExternally:
+    type: Smart
+    discoveryServiceType: LoadBalancer
+    memberAccess: LoadBalancer 
+  resources:
+    requests:
+      memory: "10Gi"
+      cpu: "2"
+  jvm:
+    gc:
+      logging: true
+    args:
+      - "-Xms8g -Xmx8g"
+#      - "-XX:+UseZGC"
+#      - "-XX:+ZGenerational"
+  properties:
+    "hazelcast.logging.type": "log4j2"
+    "hazelcast.slow.operation.detector.enabled": "true"          
+    "hazelcast.shutdownhook.policy": "GRACEFUL"
+
+      
