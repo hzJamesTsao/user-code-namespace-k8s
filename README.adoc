@@ -7,6 +7,7 @@
 :page-lang: java 
 :page-enterprise: true
 :page-est-time: 15 minutes
+:imagesdir: /docs/modules/ROOT/images
 :description: This is a demonstration of user code namespaces using an on-premise Hazelcast cluster running in K8S/OpenShift (using local resources only, e.g. no cloud blob storage).  In this exercise, we will be working with a Spring Boot service that uses an entry processor to perform a basic authorization. We will then update the entry processor and domain object without restarting the cluster.
 
 {description}
@@ -115,7 +116,7 @@ Notice how the `TransactionEntryProcessor` and `Transaction` classes are being a
       }
   }
 ```
-
++
 Notice similar logic to initialize the `card-ns` namespace is present in `RefdataLoader`
 +
 ```java
@@ -123,11 +124,10 @@ Notice similar logic to initialize the `card-ns` namespace is present in `Refdat
 
     UserCodeNamespaceConfig ns = new UserCodeNamespaceConfig("card-ns");
     hzClient.getConfig().getNamespacesConfig().addNamespaceConfig(ns);
-``
-`
+```
 . Start the authorization service by running `AuthorizationService`. This provides a REST endpoint for authorizing transactions and acts as the application client to Hazelcast.
 
-== Test the Service
+== Step 3. Test the Service
 
 . Open up the management center at http://management-center-service-publicIP:8080. Open the SQL tab, then use the following query to obtain a valid card number.
 +
@@ -135,7 +135,8 @@ Notice similar logic to initialize the `card-ns` namespace is present in `Refdat
 SELECT * FROM cards LIMIT 10;
 ```
 +
-image::docs/modules/ROOT/cardlist.png[]
+image::cardlist.png[]
+
 
 . Using one of the card numbers, use Postman (or another API testing tool) to POST to http://localhost:8888/authorize. The request should include an "application/json" content-type header and 
 the body should be similar to the one shown below.
@@ -150,7 +151,7 @@ the body should be similar to the one shown below.
 }
 ```
 +
-image::docs/modules/ROOT/post1.png[]
+image::post1.png[]
 
 . Verify that the available credit amount has been changed by the amount you charged in the transaction you just posted.
 +
@@ -160,7 +161,7 @@ FROM cards
   WHERE cardNumber LIKE '6771-8993-0479-5635';
 ```
 +
-image::docs/modules/ROOT/verifyEP.png[]
+image::verifyEP.png[]
 
 . Pick one of the cards and set it to locked.
 +
