@@ -179,7 +179,7 @@ SET locked = true
 +
 Observe the output generated. With this version of the authorization code, you only get two possible responses: ACCEPTED and DECLINED_OVER_AUTH_LIMIT.
 
-== Update the Transaction Entry Processor
+== Step 4. Update the Transaction Entry Processor and Domain Object
 
 . Edit the Transaction Entry Processor. You can un-comment the lines indicated, or you can make your own changes. Save your changes.
 
@@ -193,7 +193,7 @@ docker compose restart authorization-service
 . POST the same transactions as before and observe the output changes.
 
 . You can also change the `Card` domain object, such as adding a field `lastTransaction` to it. Uncomment the following code, rebuild the project and patch the existing map data.
-
++
 Card.java
 +
 ```java  
@@ -207,7 +207,7 @@ Card.java
         this.lastTransaction = lastTransaction;
     }
 ```
-
++
 TransactionEntryProcessor.java
 +
 ```java
@@ -219,6 +219,7 @@ TransactionEntryProcessor.java
           .setString("lastTransaction", transaction.getTransactionId())
           .build();
 ```
++
 Run `PatchRefdata` to patch existing map entries. This is needed because we can't use a custom serializer to handle the newly added field programmatically, so we need to patch all existing data to the new version of domain object so that the right schema definition will be used in the EntryProcessor
 
 
